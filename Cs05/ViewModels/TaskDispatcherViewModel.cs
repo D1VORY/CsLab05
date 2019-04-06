@@ -69,7 +69,7 @@ namespace Cs05.ViewModels
            
                 try
                 {
-                    //TODO MAke state to be showed
+                    
                     ThreadsList tl = new ThreadsList(Process.GetProcessById(SelectedTask.Id));
                     tl.Show();
                 }
@@ -172,8 +172,12 @@ namespace Cs05.ViewModels
                             }
                             catch (ArgumentException )
                             {
-                               // MessageBox.Show("Not found " + i);
-                                Tasks.RemoveAt(i);
+                               
+                                
+                                Application.Current.Dispatcher.Invoke(() =>
+                                {
+                                    Tasks.RemoveAt(i);
+                                });
                                 --i;
                                 continue;
                             }
@@ -213,11 +217,12 @@ namespace Cs05.ViewModels
                     if (!found)
                     {
                         Application.Current.Dispatcher.Invoke(() => { Tasks.RemoveAt(i); });
-                        //Tasks.RemoveAt(i);
+                        
                         --i;
                     }
                 }
             }));
+           
         }
 
         private async void Check2()
@@ -247,6 +252,7 @@ namespace Cs05.ViewModels
 
                 }
             }));
+            
         }
 
         private void UpdateList()
@@ -275,14 +281,14 @@ namespace Cs05.ViewModels
 
         private int CalculateCpu(Process pr)
         {
-            PerformanceCounter CpuCounter = new PerformanceCounter("Process", "% Processor Time", pr.ProcessName);
-            return Convert.ToInt32(CpuCounter.NextValue() / Environment.ProcessorCount);
+            PerformanceCounter cpuCounter = new PerformanceCounter("Process", "% Processor Time", pr.ProcessName);
+            return Convert.ToInt32(cpuCounter.NextValue() / Environment.ProcessorCount);
         }
 
         private int CalculateRam(Process pr)
         {
-            PerformanceCounter RamCounter = new PerformanceCounter("Process", "Private Bytes", pr.ProcessName);
-            return (int)Math.Round(RamCounter.NextValue() / (1024 * 1024), 2);
+            PerformanceCounter ramCounter = new PerformanceCounter("Process", "Private Bytes", pr.ProcessName);
+            return (int)Math.Round(ramCounter.NextValue() / (1024 * 1024), 2);
         }
 
        
