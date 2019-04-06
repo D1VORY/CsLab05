@@ -40,7 +40,9 @@ namespace Cs05.ViewModels
         {
             try
             {
-                Process.Start("explorer.exe", Process.GetProcessById(SelectedTask.Id).MainModule.FileName);
+                string path = Process.GetProcessById(SelectedTask.Id).MainModule.FileName;
+                 Process.Start("explorer.exe", path.Substring(0,path.Length-4));
+                
             }
             catch (Exception e)
             {
@@ -172,8 +174,7 @@ namespace Cs05.ViewModels
                             }
                             catch (ArgumentException )
                             {
-                               
-                                
+     
                                 Application.Current.Dispatcher.Invoke(() =>
                                 {
                                     Tasks.RemoveAt(i);
@@ -182,7 +183,7 @@ namespace Cs05.ViewModels
                                 continue;
                             }
 
-                            Tasks[i].Cpu = CalculateCpu(pr);
+                            Tasks[i].Cpu = CalculateCpu(pr) ;
                             Tasks[i].Ram = CalculateRam(pr);
                             Tasks[i].IsActive = pr.Responding;
                             Tasks[i].Threads = pr.Threads.Count;
@@ -283,12 +284,14 @@ namespace Cs05.ViewModels
         {
             PerformanceCounter cpuCounter = new PerformanceCounter("Process", "% Processor Time", pr.ProcessName);
             return Convert.ToInt32(cpuCounter.NextValue() / Environment.ProcessorCount);
+
         }
 
         private int CalculateRam(Process pr)
         {
             PerformanceCounter ramCounter = new PerformanceCounter("Process", "Private Bytes", pr.ProcessName);
             return (int)Math.Round(ramCounter.NextValue() / (1024 * 1024), 2);
+
         }
 
        
