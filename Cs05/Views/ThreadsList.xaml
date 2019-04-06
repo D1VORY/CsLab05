@@ -1,0 +1,22 @@
+﻿<Window x:Class="Cs05.Views.ThreadsList"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Cs05.Views"
+        mc:Ignorable="d"
+        Title="ThreadsList" Height="250" Width="300">
+    <Grid>
+        <DataGrid  
+            IsReadOnly="True"
+                    ItemsSource="{Binding Path= Threads}"
+                    AutoGenerateColumns="False" >
+            <DataGrid.Columns >
+
+                <DataGridTextColumn Header="ID"  Binding="{Binding Path=Id}"   Width="*" />
+                <DataGridTextColumn Header="State" Binding="{Binding Path=ThreadState}"  Width="*" />
+                <DataGridTextColumn Header="StartDateTime" Binding="{Binding Path=StartTime}"  Width="*" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>
